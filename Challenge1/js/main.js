@@ -7,10 +7,30 @@ var alerta = document.querySelector('.alert_text');
 var imagen = document.querySelector('.munheco');
 var mensajeUno = document.querySelector('.message_one');
 var mensajeDos = document.querySelector('.message_two');
+var result = document.querySelector('.resultado');
 
 const removeAccents = (str) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-} 
+}
+
+const mostrarContenido = () =>{
+    imagen.setAttribute("src","src/muñeco.svg");
+    mensajeUno.style.display = "block";
+    mensajeDos.style.display = "block";
+    mensajeUno.textContent = "Ningún mensaje fue encontrado";
+    mensajeDos.textContent = "Ingresa el texto que desees encriptar o desencriptar";
+    btnCopiar.style.display = "none";
+    result.style.display = "none";
+}
+
+const mostrarMensaje = (script) =>{
+    imagen.setAttribute("src","");
+    mensajeDos.style.display = "none";
+    mensajeUno.style.display = "none";
+    result.style.display = "block";
+    result.textContent = script;
+    btnCopiar.style.display = "block";
+}
 
 //Encriptación
 btnEncriptar.addEventListener('click',()=>{
@@ -19,11 +39,7 @@ btnEncriptar.addEventListener('click',()=>{
 
     if(textoIngresado.length == 0){ //Se verifica que se haya ingresado un valor en el input
         //En caso de NO haber ingresado valores
-        imagen.setAttribute("src","src/muñeco.svg");
-        mensajeDos.style.display = "block";
-        mensajeUno.textContent = "Ningún mensaje fue encontrado";
-        mensajeDos.textContent = "Ingresa el texto que desees encriptar o desencriptar";
-        btnCopiar.style.display = "none";
+        mostrarContenido();
     }else{
         //En caso de haber ingresado valores
         for (const letra of textoIngresado) {
@@ -49,10 +65,7 @@ btnEncriptar.addEventListener('click',()=>{
             }
         }
         //Se muestra el mensaje encriptado
-        imagen.setAttribute("src","");
-        mensajeDos.style.display = "none";
-        mensajeUno.textContent = encriptado;
-        btnCopiar.style.display = "block";
+        mostrarMensaje(encriptado);
     }
     
 
@@ -65,20 +78,13 @@ btnDesencriptar.addEventListener('click',()=>{
 
     if(textoIngresado.length == 0){ //Se verifica que se haya ingresado valores en el input
         //En caso de no haber ingresado valores
-        imagen.setAttribute("src","src/muñeco.svg");
-        mensajeDos.style.display = "block";
-        mensajeUno.textContent = "Ningún mensaje fue encontrado";
-        mensajeDos.textContent = "Ingresa el texto que desees encriptar o desencriptar";
-        btnCopiar.style.display = "none";
+        mostrarContenido();
     }else{
         //En caso de haber ingresado valores
         let desencriptado = textoIngresado.replaceAll("ai","a").replaceAll("enter","e").replaceAll("imes","i").replaceAll("ober","o").replaceAll("ufat","u"); //Se reemplazan los valores correspondientes
 
         //Se muestra el mensaje desencriptado
-        imagen.setAttribute("src","");
-        mensajeDos.style.display = "none";
-        mensajeUno.textContent = desencriptado;
-        btnCopiar.style.display = "block";
+        mostrarMensaje(desencriptado);
     }
 
 
@@ -87,11 +93,12 @@ btnDesencriptar.addEventListener('click',()=>{
 
 //Copiado de texto
 btnCopiar.addEventListener('click',()=>{
-    navigator.clipboard.writeText(mensajeUno.textContent); //Se copia el texto que se encuentra en el mensajeUno
+    navigator.clipboard.writeText(result.textContent); //Se copia el texto que se encuentra en el mensajeUno
 
     btnCopiar.style.display ="none";
-    mensajeDos.style.display = "block";
-    mensajeDos.textContent = "Texto Copiado!";
+    result.style.display = "none";
+    mensajeUno.style.display = "block";
+    mensajeUno.textContent = "Texto Copiado!";
     input.value = "";
     input.focus();
 });
