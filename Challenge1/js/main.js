@@ -106,5 +106,6 @@ btnCopiar.addEventListener('click',()=>{
 
     mostrarContenido();
     input.value = "";
+    input.focus();
 });
 
