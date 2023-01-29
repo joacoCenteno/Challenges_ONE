@@ -32,6 +32,14 @@ const mostrarMensaje = (script) =>{
     btnCopiar.style.display = "block";
 }
 
+const mensajeSucces = () =>{
+    swal({
+        title: "Texto Copiado!",
+        icon: "success",
+        button: "Ok",
+      });
+}
+
 //Encriptación
 btnEncriptar.addEventListener('click',()=>{
     let textoIngresado = removeAccents(input.value.toLowerCase()); //Se toma el valor del input, se quitan las tildes y se convierte en minuscula
@@ -94,12 +102,9 @@ btnDesencriptar.addEventListener('click',()=>{
 //Copiado de texto
 btnCopiar.addEventListener('click',()=>{
     navigator.clipboard.writeText(result.textContent); //Se copia el texto que se encuentra en el mensajeUno
+    mensajeSucces();
 
-    btnCopiar.style.display ="none";
-    result.style.display = "none";
-    mensajeUno.style.display = "block";
-    mensajeUno.textContent = "Texto Copiado!";
+    mostrarContenido();
     input.value = "";
-    input.focus();
 });
 
